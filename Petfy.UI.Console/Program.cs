@@ -5,50 +5,50 @@ using Petfy.Data.Repositories;
 
 using (var context = new PetfyDbContext())
 {
-    ///Para asegurarnos que la base de datos está creada
-    context.Database.EnsureCreated();
+    /////Para asegurarnos que la base de datos está creada
+    //context.Database.EnsureCreated();
 
-    ///Para utilizar migrations de entity.
-    ///No es necesario correrlo todas las veces
-    //context.Database.Migrate();
+    /////Para utilizar migrations de entity.
+    /////No es necesario correrlo todas las veces
+    ////context.Database.Migrate();
 
-    ///Si queremos usar el repository en lugar de todo el context
-    //var repository = new PetRepository(context);
+    /////Si queremos usar el repository en lugar de todo el context
+    ////var repository = new PetRepository(context);
 
-    Console.WriteLine("Before Insert");
+    //Console.WriteLine("Before Insert");
 
-    ///Obtiene la lista de mascotas del contexto. Con Include se pueden traer los objetos relacionados, en este caso, owner
-    var pets = context.Pets.Include(x => x.Owner).ToList();
+    /////Obtiene la lista de mascotas del contexto. Con Include se pueden traer los objetos relacionados, en este caso, owner
+    //var pets = context.Pets.Include(x => x.Owner).ToList();
 
-    ///Obtiene la lista de vacunas del contexto
-    //var vaccines = context.Vaccines.ToList();
+    /////Obtiene la lista de vacunas del contexto
+    ////var vaccines = context.Vaccines.ToList();
 
-    ///Recorre la lista de mascotas
-    foreach (var pet in pets)
-    {
-        ///Obtiene el owner de una mascota, usando el Id guardado en cada objeto Pet. NO es necesario si al traer la lista se usa Include.
-        ///Para obtener un objeto en particular usando el Id, usamos Find.
-        var owner = context.Owners.Find(pet.OwnerID);
-        //Console.WriteLine(owner.Name);
-        Console.WriteLine($"Pet Name: {pet.Name} | Owner Name: {pet.Owner.Name}");
+    /////Recorre la lista de mascotas
+    //foreach (var pet in pets)
+    //{
+    //    ///Obtiene el owner de una mascota, usando el Id guardado en cada objeto Pet. NO es necesario si al traer la lista se usa Include.
+    //    ///Para obtener un objeto en particular usando el Id, usamos Find.
+    //    var owner = context.Owners.Find(pet.OwnerID);
+    //    //Console.WriteLine(owner.Name);
+    //    Console.WriteLine($"Pet Name: {pet.Name} | Owner Name: {pet.Owner.Name}");
 
-        ///Asigna una lista de vacunas a una mascota.
-        //pet.Vaccines = vaccines;
-    }
+    //    ///Asigna una lista de vacunas a una mascota.
+    //    //pet.Vaccines = vaccines;
+    //}
 
-    ///Obtiene la lista de dueños de mascotas del contexto. Con Include se pueden traer los objetos relacionados, en este caso, pets
-    var owners = context.Owners.Include(x => x.Pets).ToList();
+    /////Obtiene la lista de dueños de mascotas del contexto. Con Include se pueden traer los objetos relacionados, en este caso, pets
+    //var owners = context.Owners.Include(x => x.Pets).ToList();
 
-    ///Recorre la lista de dueños
-    foreach (var owner in owners)
-    {
-        Console.WriteLine(owner.ID + " " + owner.Name);
-        ///Recorre la lista de mascotas de cada dueño
-        foreach (var pet in owner.Pets)
-        {
-            Console.WriteLine($"Pet Name: {pet.Name} Breed: {pet.Breed}");
-        }
-    }
+    /////Recorre la lista de dueños
+    //foreach (var owner in owners)
+    //{
+    //    Console.WriteLine(owner.ID + " " + owner.Name);
+    //    ///Recorre la lista de mascotas de cada dueño
+    //    foreach (var pet in owner.Pets)
+    //    {
+    //        Console.WriteLine($"Pet Name: {pet.Name} Breed: {pet.Breed}");
+    //    }
+    //}
 
     //var maxPetNumber = context.Pets.Max(x => x.PetNumber);
 
