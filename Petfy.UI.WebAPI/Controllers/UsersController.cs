@@ -19,9 +19,8 @@ namespace Petfy.UI.WebAPI.Controllers
 
         //Get
         //GetUsers
-
         [HttpGet]
-        //[AllowAnonymous]
+        [AllowAnonymous]
         public ActionResult<IEnumerable<User>> GetUsers()
         {
             return Ok(_context.Users.ToList());
@@ -30,7 +29,7 @@ namespace Petfy.UI.WebAPI.Controllers
         //Get
         //GetUserById
         [HttpGet("{id}")]
-        //[Authorize]
+        [Authorize]
         public ActionResult<User> GetUser(int id)
         {
             return Ok(_context.Users.Find(id));

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -12,6 +13,7 @@ namespace Petfy.UI.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class PetsController : ControllerBase
     {
         private readonly PetfyDbContext _context;
@@ -25,10 +27,10 @@ namespace Petfy.UI.WebAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Pet>>> GetPets()
         {
-          if (_context.Pets == null)
-          {
-              return NotFound();
-          }
+            if (_context.Pets == null)
+            {
+                return NotFound();
+            }
             return await _context.Pets.ToListAsync();
         }
 
@@ -36,10 +38,10 @@ namespace Petfy.UI.WebAPI.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Pet>> GetPet(int id)
         {
-          if (_context.Pets == null)
-          {
-              return NotFound();
-          }
+            if (_context.Pets == null)
+            {
+                return NotFound();
+            }
             var pet = await _context.Pets.FindAsync(id);
 
             if (pet == null)
@@ -66,7 +68,7 @@ namespace Petfy.UI.WebAPI.Controllers
             {
                 await _context.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (DbUpdateConcurrencyException ex)
             {
                 if (!PetExists(id))
                 {
@@ -74,7 +76,7 @@ namespace Petfy.UI.WebAPI.Controllers
                 }
                 else
                 {
-                    throw;
+                    throw ex;
                 }
             }
 
@@ -86,10 +88,10 @@ namespace Petfy.UI.WebAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Pet>> PostPet(Pet pet)
         {
-          if (_context.Pets == null)
-          {
-              return Problem("Entity set 'PetfyDbContext.Pets'  is null.");
-          }
+            if (_context.Pets == null)
+            {
+                return Problem("Entity set 'PetfyDbContext.Pets'  is null.");
+            }
             _context.Pets.Add(pet);
             await _context.SaveChangesAsync();
 
