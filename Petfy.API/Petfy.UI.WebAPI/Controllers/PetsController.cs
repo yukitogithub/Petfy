@@ -13,7 +13,6 @@ namespace Petfy.UI.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class PetsController : ControllerBase
     {
         private readonly PetfyDbContext _context;

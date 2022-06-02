@@ -25,7 +25,7 @@ namespace Petfy.UI.WebAPI
             services.AddDbContext<PetfyDbContext>();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             services.AddSwaggerGen();
-
+            services.AddCors();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters
@@ -52,6 +52,7 @@ namespace Petfy.UI.WebAPI
 
             app.UseHttpsRedirection();
             app.UseRouting();
+            app.UseCors(p => p.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200") );
             app.UseAuthentication();
             app.UseAuthorization();
 
