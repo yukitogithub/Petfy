@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { AuthService } from './_services/auth.service';
+import { User } from './_models/user';
 
 @Component({
   selector: 'app-root',
@@ -9,20 +11,19 @@ import { HttpClient } from '@angular/common/http';
 export class AppComponent implements OnInit {
   title = 'Petfy.Web.Client';
   text = 'Un texto';
-  users: any;
 
-  constructor(private httpClient: HttpClient) { }
+  user: any;
+
+  constructor(private httpClient: HttpClient, private authService: AuthService) { }
   
   ngOnInit() {
-    this.httpClient.get('https://localhost:7102/api/users').subscribe({
-      //next (paso exitoso)
-      next: r => { this.users = r; console.log(this.users); },
-      //nombre | (nombre) | () => { line1; line2 }
-      //error (paso erroneo)
-      error: error => console.log(error),
-      //complete (paso sí o sí)
-      complete: () => console.log("complete")
-    });
+    
+    //this.setCurrentUser();
+  }
+
+  setCurrentUser(){
+    const user: User = JSON.parse(localStorage.getItem('user'));
+    this.authService.setCurrentUser(user);
   }
 
 }
