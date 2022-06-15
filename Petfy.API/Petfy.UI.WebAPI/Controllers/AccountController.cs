@@ -29,7 +29,7 @@ namespace Petfy.UI.WebAPI.Controllers
         {
             var user = _context.Users.SingleOrDefault(x => x.UserName == login.Username);
 
-            if (user == null) return Unauthorized("Invalid");
+            if (user == null) return Unauthorized("Username or password incorrect");
 
             using var hmac = new HMACSHA512(user.PasswordSalt);
 
@@ -37,7 +37,7 @@ namespace Petfy.UI.WebAPI.Controllers
 
             for (int i = 0; i < computedHash.Length; i++)
             {
-                if (computedHash[i] != user.PasswordHash[i]) return Unauthorized("Invalid");
+                if (computedHash[i] != user.PasswordHash[i]) return Unauthorized("Username or password incorrect");
             }
 
             var token = _tokenService.CreateToken(user);

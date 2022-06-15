@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -8,7 +8,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
   users: any;
-  constructor(private httpClient: HttpClient) { }
+  //httpOptions: any; //{ headers: HttpHeaders }
+  //Authorization: Bearer dflgkdklfgjlfgkh
+  constructor(private httpClient: HttpClient) { 
+    // this.httpOptions = {
+    //   headers: new HttpHeaders({
+    //     Authorization: "Bearer " + JSON.parse(localStorage.getItem('user'))?.token
+    //   })
+    // }
+  }
 
   ngOnInit(): void {
     this.getUsers();

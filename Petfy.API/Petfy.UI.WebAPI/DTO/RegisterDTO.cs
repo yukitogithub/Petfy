@@ -6,7 +6,7 @@ namespace Petfy.UI.WebAPI.DTO
     {
         [Required]
         public string Username { get; set; }
-        [Required]
+        [Required, MinLength(8)]
         public string Password { get; set; }
     }
 }

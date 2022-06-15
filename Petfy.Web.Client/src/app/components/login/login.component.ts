@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/_services/auth.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -12,9 +13,11 @@ export class LoginComponent implements OnInit {
 
   loginForm: FormGroup;
 
-  constructor(private auth: AuthService, private router: Router) { 
-    
-  }
+  constructor(
+    private auth: AuthService, 
+    private router: Router,
+    private toastr: ToastrService
+  ) {}
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
@@ -38,7 +41,7 @@ export class LoginComponent implements OnInit {
         next: (user) => route.navigate(['/']),
         //nombre | (nombre) | () => { line1; line2 }
         //error (paso erroneo)
-        error: (error) => console.log(error),
+        error: (error) => { console.log(error); },
         //complete (paso sí o sí)
         complete: () => console.log("complete")
       });

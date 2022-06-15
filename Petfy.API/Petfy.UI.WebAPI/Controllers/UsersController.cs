@@ -20,7 +20,7 @@ namespace Petfy.UI.WebAPI.Controllers
         //Get
         //GetUsers
         [HttpGet]
-        [AllowAnonymous]
+        [Authorize]
         public ActionResult<IEnumerable<User>> GetUsers()
         {
             return Ok(_context.Users.ToList());

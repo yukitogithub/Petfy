@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { ThisReceiver } from '@angular/compiler';
 import { Injectable } from '@angular/core';
-import { ReplaySubject } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { User } from '../_models/user';
 import { Register } from '../_models/register';
@@ -11,7 +10,8 @@ import { Register } from '../_models/register';
 })
 export class AuthService {
   baseUrl = "https://localhost:7102/api/";
-  private currentUserSubject = new ReplaySubject<User>(1);
+  currentUser: User = new User();
+  private currentUserSubject = new BehaviorSubject<User>(this.currentUser);
   currentUser$ = this.currentUserSubject.asObservable();
 
   constructor(private httpClient: HttpClient) { 
@@ -58,5 +58,9 @@ export class AuthService {
 
   setCurrentUser(user: User){
     this.currentUserSubject.next(user);
+  }
+
+  public get currentUserValue(){
+    return this.currentUserSubject.value
   }
 }
