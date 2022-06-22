@@ -8,6 +8,7 @@ namespace Petfy.UI.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class UsersController : ControllerBase
     {
         private readonly PetfyDbContext _context;
@@ -20,7 +21,6 @@ namespace Petfy.UI.WebAPI.Controllers
         //Get
         //GetUsers
         [HttpGet]
-        [Authorize]
         public ActionResult<IEnumerable<User>> GetUsers()
         {
             return Ok(_context.Users.ToList());
@@ -29,7 +29,6 @@ namespace Petfy.UI.WebAPI.Controllers
         //Get
         //GetUserById
         [HttpGet("{id}")]
-        [Authorize]
         public ActionResult<User> GetUser(int id)
         {
             return Ok(_context.Users.Find(id));

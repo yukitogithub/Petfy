@@ -8,40 +8,92 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Petfy.Data;
 using Petfy.Data.Models;
+using Petfy.Domain.Services;
 
 namespace Petfy.UI.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class PetsController : ControllerBase
     {
-        private readonly PetfyDbContext _context;
+        private readonly PetService petservice;
 
-        public PetsController(PetfyDbContext context)
+        public PetsController(PetService petService)
         {
-            _context = context;
+            petservice = petService;
         }
 
         // GET: api/Pets
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Pet>>> GetPets()
         {
-            if (_context.Pets == null)
+            var pets = petservice.GetAllPets();
+            if (pets == null)
             {
                 return NotFound();
             }
-            return await _context.Pets.ToListAsync();
+            return pets;
+        }
+
+        // GET: api/Pets/bullterrier
+        [HttpGet("{breed}")]
+        public async Task<ActionResult<IEnumerable<Pet>>> GetPets(string breed)
+        {
+            var pets = petservice.GetByBreed(breed);
+            if (pets == null)
+            {
+                return NotFound();
+            }
+            return pets;
+        }
+
+        // GET: api/Pets/Breed/BullTerrier/OwnerId/5
+        [HttpGet("/breed/{breed}/ownerid/{ownerId:int}")]
+        public async Task<ActionResult<IEnumerable<Pet>>> GetPets(string breed, int ownerId)
+        {
+            var pets = petservice.GetByBreed(breed);
+            if (pets == null)
+            {
+                return NotFound();
+            }
+            return pets;
+        }
+
+        // GET: api/Pets/5/Vaccines
+        [HttpGet("{id:int}/vaccines")]
+        public async Task<ActionResult<IEnumerable<Vaccine>>> GetPetsVaccines(int id)
+        {
+            var vaccines = petservice.GetAllVaccines(id);
+            if (vaccines == null)
+            {
+                return NotFound();
+            }
+            return vaccines;
+        }
+
+        // GET: api/Pets/OwnerId/5
+        [HttpGet("/ownerid/{ownerId:int}")]
+        public async Task<ActionResult<IEnumerable<Pet>>> GetPetsByOwnerId(int ownerId)
+        {
+            var pets = petservice.GetByOwnerId(ownerId);
+            if (pets == null)
+            {
+                return NotFound();
+            }
+            return pets;
         }
 
         // GET: api/Pets/5
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<ActionResult<Pet>> GetPet(int id)
         {
-            if (_context.Pets == null)
+            var pets = petservice.GetAllPets();
+            if (pets == null)
             {
                 return NotFound();
             }
-            var pet = await _context.Pets.FindAsync(id);
+            var pet = petservice.GetById(id);
 
             if (pet == null)
             {
@@ -61,22 +113,17 @@ namespace Petfy.UI.WebAPI.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(pet).State = EntityState.Modified;
-
             try
             {
-                await _context.SaveChangesAsync();
+                petservice.EditPet(id, pet);
             }
             catch (DbUpdateConcurrencyException ex)
             {
-                if (!PetExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw ex;
-                }
+                throw ex;
+            }
+            catch(Exception ex)
+            {
+                throw ex;
             }
 
             return NoContent();
@@ -87,12 +134,19 @@ namespace Petfy.UI.WebAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Pet>> PostPet(Pet pet)
         {
-            if (_context.Pets == null)
+            var pets = petservice.GetAllPets();
+            if (pets == null)
             {
                 return Problem("Entity set 'PetfyDbContext.Pets'  is null.");
             }
-            _context.Pets.Add(pet);
-            await _context.SaveChangesAsync();
+            try
+            {
+                petservice.AddPet(pet);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
 
             return CreatedAtAction("GetPet", new { id = pet.ID }, pet);
         }
@@ -101,25 +155,26 @@ namespace Petfy.UI.WebAPI.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePet(int id)
         {
-            if (_context.Pets == null)
-            {
-                return NotFound();
-            }
-            var pet = await _context.Pets.FindAsync(id);
-            if (pet == null)
+            var pets = petservice.GetAllPets();
+            if (pets == null)
             {
                 return NotFound();
             }
 
-            _context.Pets.Remove(pet);
-            await _context.SaveChangesAsync();
+            try
+            {
+                var deleteFlag = petservice.DeletePet(id);
+                if (!deleteFlag)
+                {
+                    return NotFound();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
 
             return NoContent();
-        }
-
-        private bool PetExists(int id)
-        {
-            return (_context.Pets?.Any(e => e.ID == id)).GetValueOrDefault();
         }
     }
 }

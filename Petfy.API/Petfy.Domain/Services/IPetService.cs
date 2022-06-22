@@ -1,22 +1,22 @@
-﻿using System;
+﻿using Petfy.Data.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Petfy.Data.Models;
 
-namespace Petfy.Data.Repositories
+namespace Petfy.Domain.Services
 {
-    public interface IPetRepository
+    public interface IPetService
     {
         public List<Pet> GetAllPets(); //GetAll
 
-        //public List<Pet> GetByBreed(string Breed);
+        public List<Pet> GetByBreed(string Breed);
 
-        //public List<Pet> GetByOwnerId(int OwnerId);
+        public List<Pet> GetByOwnerId(int OwnerId);
 
-        //public List<Vaccine> GetAllVaccines(int PetId);
-        
+        public List<Vaccine> GetAllVaccines(int PetId);
+
         public Pet GetById(int Id); //GetById
 
         public void AddPet(Pet pet); //AddPet

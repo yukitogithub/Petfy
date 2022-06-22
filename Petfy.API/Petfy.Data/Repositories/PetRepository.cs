@@ -1,4 +1,5 @@
-﻿using Petfy.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using Petfy.Data;
 using Petfy.Data.Models;
 using System;
 using System.Collections.Generic;
@@ -10,22 +11,109 @@ namespace Petfy.Data.Repositories
 {
     public class PetRepository : IPetRepository
     {
-        private readonly PetfyDbContext context;
+        private readonly PetfyDbContext _context;
 
         public PetRepository(PetfyDbContext context)
         {
-            this.context=context;
+            _context = context;
         }
 
         public List<Pet> GetAllPets()
         {
-            return context.Pets.ToList();
+            return _context.Pets.Include(p => p.Vaccines).ToList();
+        }
+
+        //public List<Pet> GetByBreed(string Breed)
+        //{
+        //    return _context.Pets.Where(p => p.Breed == Breed).ToList();
+        //}
+
+        //public List<Pet> GetByOwnerId(int OwnerId)
+        //{
+        //    return _context.Pets.Where(p => p.OwnerID == OwnerId).ToList();
+        //}
+
+        //public List<Vaccine> GetAllVaccines(int PetId)
+        //{
+        //    try
+        //    {
+        //        return _context.Pets.Include(p => p.Vaccines).Where(p => p.ID == PetId).FirstOrDefault()?.Vaccines?.ToList();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
+
+        public Pet GetById(int Id)
+        {
+            return _context.Pets.Find(Id);
         }
 
         public void AddPet(Pet pet)
         {
-            context.Add(pet);
-            context.SaveChanges();
+            if(pet != null)
+            {
+                try
+                {
+                    _context.Pets.Add(pet);
+                    _context.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+        }
+
+        public Pet EditPet(int Id, Pet UpdatedPet)
+        {
+            var oldPet = _context.Pets.Find(Id);
+            if(oldPet != null && oldPet.ID == UpdatedPet.ID)
+            {
+                oldPet.Description = UpdatedPet.Description;
+                oldPet.Name = UpdatedPet.Name;
+                //oldPet.Breed = UpdatedPet.Breed;
+                //oldPet.Type = UpdatedPet.Type;
+                oldPet.DateOfBirth = UpdatedPet.DateOfBirth;
+                oldPet.PetNumber = UpdatedPet.PetNumber;
+                //oldPet.Vaccines = UpdatedPet.Vaccines;
+
+                //_context.Update(oldPet);
+                try
+                {
+                    _context.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+
+                return oldPet;
+            }
+
+            return UpdatedPet;
+        }
+
+        public bool DeletePet(int Id)
+        {
+            var pet = _context.Pets.Find(Id);
+            if (pet != null)
+            {
+                try
+                {
+                    _context.Pets.Remove(pet);
+                    _context.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+
+                return true;
+            }
+
+            return false;
         }
     }
 }
