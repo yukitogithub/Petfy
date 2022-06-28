@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Petfy.Data;
+using Petfy.Data.Repositories;
 using Petfy.Domain.Services;
 using Petfy.UI.WebAPI.Middleware;
 using System.Text;
@@ -19,10 +21,11 @@ namespace Petfy.UI.WebAPI
         public void ConfigureServices(IServiceCollection services)
         {
             // Add services to the container.
+            services.AddDbContext<PetfyDbContext>();
             services.AddScoped<ITokenService, TokenService>();
+            
             services.AddControllers();
             services.AddEndpointsApiExplorer();
-            services.AddDbContext<PetfyDbContext>();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             services.AddSwaggerGen();
             services.AddCors();
@@ -36,6 +39,10 @@ namespace Petfy.UI.WebAPI
                     ValidateAudience = false,
                 };
             });
+
+            services.AddScoped<IPetRepository, PetRepository>();
+
+            services.AddScoped<IPetService, PetService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

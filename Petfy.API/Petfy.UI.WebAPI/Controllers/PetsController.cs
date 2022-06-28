@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Petfy.Data;
 using Petfy.Data.Models;
+using Petfy.Domain.DTO;
 using Petfy.Domain.Services;
 
 namespace Petfy.UI.WebAPI.Controllers
@@ -17,18 +18,18 @@ namespace Petfy.UI.WebAPI.Controllers
     [Authorize]
     public class PetsController : ControllerBase
     {
-        private readonly PetService petservice;
+        private readonly IPetService _petservice;
 
-        public PetsController(PetService petService)
+        public PetsController(IPetService petService)
         {
-            petservice = petService;
+            _petservice = petService;
         }
 
         // GET: api/Pets
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Pet>>> GetPets()
         {
-            var pets = petservice.GetAllPets();
+            var pets = _petservice.GetAllPets();
             if (pets == null)
             {
                 return NotFound();
@@ -40,7 +41,7 @@ namespace Petfy.UI.WebAPI.Controllers
         [HttpGet("{breed}")]
         public async Task<ActionResult<IEnumerable<Pet>>> GetPets(string breed)
         {
-            var pets = petservice.GetByBreed(breed);
+            var pets = _petservice.GetByBreed(breed);
             if (pets == null)
             {
                 return NotFound();
@@ -49,10 +50,10 @@ namespace Petfy.UI.WebAPI.Controllers
         }
 
         // GET: api/Pets/Breed/BullTerrier/OwnerId/5
-        [HttpGet("/breed/{breed}/ownerid/{ownerId:int}")]
+        [HttpGet("breed/{breed}/ownerid/{ownerId:int}")]
         public async Task<ActionResult<IEnumerable<Pet>>> GetPets(string breed, int ownerId)
         {
-            var pets = petservice.GetByBreed(breed);
+            var pets = _petservice.GetByBreed(breed);
             if (pets == null)
             {
                 return NotFound();
@@ -64,7 +65,7 @@ namespace Petfy.UI.WebAPI.Controllers
         [HttpGet("{id:int}/vaccines")]
         public async Task<ActionResult<IEnumerable<Vaccine>>> GetPetsVaccines(int id)
         {
-            var vaccines = petservice.GetAllVaccines(id);
+            var vaccines = _petservice.GetAllVaccines(id);
             if (vaccines == null)
             {
                 return NotFound();
@@ -73,10 +74,10 @@ namespace Petfy.UI.WebAPI.Controllers
         }
 
         // GET: api/Pets/OwnerId/5
-        [HttpGet("/ownerid/{ownerId:int}")]
+        [HttpGet("ownerid/{ownerId:int}")]
         public async Task<ActionResult<IEnumerable<Pet>>> GetPetsByOwnerId(int ownerId)
         {
-            var pets = petservice.GetByOwnerId(ownerId);
+            var pets = _petservice.GetByOwnerId(ownerId);
             if (pets == null)
             {
                 return NotFound();
@@ -88,12 +89,12 @@ namespace Petfy.UI.WebAPI.Controllers
         [HttpGet("{id:int}")]
         public async Task<ActionResult<Pet>> GetPet(int id)
         {
-            var pets = petservice.GetAllPets();
+            var pets = _petservice.GetAllPets();
             if (pets == null)
             {
                 return NotFound();
             }
-            var pet = petservice.GetById(id);
+            var pet = _petservice.GetById(id);
 
             if (pet == null)
             {
@@ -115,7 +116,7 @@ namespace Petfy.UI.WebAPI.Controllers
 
             try
             {
-                petservice.EditPet(id, pet);
+                _petservice.EditPet(id, pet);
             }
             catch (DbUpdateConcurrencyException ex)
             {
@@ -132,30 +133,30 @@ namespace Petfy.UI.WebAPI.Controllers
         // POST: api/Pets
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Pet>> PostPet(Pet pet)
+        public async Task<ActionResult<Pet>> PostPet(PetDTO pet)
         {
-            var pets = petservice.GetAllPets();
+            var pets = _petservice.GetAllPets();
             if (pets == null)
             {
                 return Problem("Entity set 'PetfyDbContext.Pets'  is null.");
             }
             try
             {
-                petservice.AddPet(pet);
+                _petservice.AddPet(pet);
             }
             catch (Exception ex)
             {
                 throw ex;
             }
 
-            return CreatedAtAction("GetPet", new { id = pet.ID }, pet);
+            return Ok(pet);
         }
 
         // DELETE: api/Pets/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePet(int id)
         {
-            var pets = petservice.GetAllPets();
+            var pets = _petservice.GetAllPets();
             if (pets == null)
             {
                 return NotFound();
@@ -163,7 +164,7 @@ namespace Petfy.UI.WebAPI.Controllers
 
             try
             {
-                var deleteFlag = petservice.DeletePet(id);
+                var deleteFlag = _petservice.DeletePet(id);
                 if (!deleteFlag)
                 {
                     return NotFound();

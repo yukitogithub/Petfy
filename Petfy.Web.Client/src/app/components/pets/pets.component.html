@@ -1,1 +1,25 @@
-<p>pets works!</p>
+<div class="container">
+    <div style="display: flex;">
+        <div class="card" style="height: 520px; margin: 10px; width: 380px; border-radius: 5px; box-shadow: 2px 2px 5px 2px #888888;" *ngFor="let pet of pets">
+            <h5 class="card-header">
+                {{ pet.type }}
+            </h5>
+            <img src="https://static8.depositphotos.com/1057741/1041/i/950/depositphotos_10415184-stock-photo-golden-retriever-dog-sitting-on.jpg" class="card-img-top" style="height: 50%; width: fit-content; margin: auto;" alt="...">
+            <div class="card-body" >
+                <h5 class="card-title">{{ pet.name }} </h5>
+                <h6 class="card-subtitle mb-2">Number: {{ pet.petNumber }} </h6>
+                <p class="card-text">{{ pet.description }}</p>
+                <div class="text-end">
+                    <a href="#" class="btn btn-danger" style="margin: 5px;">Delete</a>
+                    <a href="#" class="btn btn-primary" style="margin: 5px;">See Details</a>    
+                </div>
+            </div>
+            <div class="card-footer">
+                {{ pet.dateOfBirth }}
+            </div>
+        </div>  
+    </div> 
+</div>
+
+
+

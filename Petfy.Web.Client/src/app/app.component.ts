@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from './_services/auth.service';
 import { User } from './_models/user';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -19,6 +20,7 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     
     //this.setCurrentUser();
+    console.log(environment.baseUrl);
   }
 
   setCurrentUser(){
