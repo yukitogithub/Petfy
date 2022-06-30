@@ -15,6 +15,8 @@ import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { PetsComponent } from './components/pets/pets.component';
 import { JwtInterceptor } from './_interceptors/jwt.interceptor';
 import { ErrorInterceptor } from './_interceptors/error.interceptor';
+import { CreatePetComponent } from './components/pets/create-pet/create-pet.component';
+import { UpdatePetComponent } from './components/pets/update-pet/update-pet.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,9 @@ import { ErrorInterceptor } from './_interceptors/error.interceptor';
     LoginComponent,
     RegisterComponent,
     HomeComponent,
-    PetsComponent
+    PetsComponent,
+    CreatePetComponent,
+    UpdatePetComponent
   ],
   imports: [
     BrowserModule,

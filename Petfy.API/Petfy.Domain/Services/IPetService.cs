@@ -22,7 +22,7 @@ namespace Petfy.Domain.Services
 
         public void AddPet(PetDTO pet); //AddPet
 
-        public Pet EditPet(int Id, Pet UpdatedPet); //EditPet
+        public Pet EditPet(int Id, PetDTO UpdatedPet); //EditPet
 
         public bool DeletePet(int Id); //DeletePet
     }

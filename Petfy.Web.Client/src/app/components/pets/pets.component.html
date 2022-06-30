@@ -1,6 +1,9 @@
 <div class="container">
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+        <button class="btn btn-dark" style="margin-top: 1%;" type="button" routerLink="/pets/add">+ Add Pet</button>
+    </div>
     <div style="display: flex;">
-        <div class="card" style="height: 520px; margin: 10px; width: 380px; border-radius: 5px; box-shadow: 2px 2px 5px 2px #888888;" *ngFor="let pet of pets">
+        <div class="card" style="height: 640px; margin: 10px; width: 380px; border-radius: 5px; box-shadow: 2px 2px 5px 2px #888888;" *ngFor="let pet of pets">
             <h5 class="card-header">
                 {{ pet.type }}
             </h5>
@@ -11,7 +14,7 @@
                 <p class="card-text">{{ pet.description }}</p>
                 <div class="text-end">
                     <a href="#" class="btn btn-danger" style="margin: 5px;">Delete</a>
-                    <a href="#" class="btn btn-primary" style="margin: 5px;">See Details</a>    
+                    <a href="#" class="btn btn-primary" style="margin: 5px;" routerLink="/pets/update" [queryParams]="{petId: pet.id}">Edit</a>    
                 </div>
             </div>
             <div class="card-footer">

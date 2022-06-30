@@ -20,8 +20,19 @@ export class PetsService {
   //GetPetsVaccine GET PetID
   //GetPetsByOwnerId GET OwnerID
   //GetPetById GET PetID
+  GetPetById(id: number){
+    return this.httpClient.get(this.baseUrl + id);
+  }
 
   //AddPet POST Pet
+  AddPet(pet: any){
+    var data: {};
+    console.log(pet);
+    return this.httpClient.post(this.baseUrl, pet);
+  }
   //EditPet PUT Pet, PetID
+  UpdatePet(petId: number, pet: any){
+    return this.httpClient.put(this.baseUrl + petId, pet);
+  }
   //DeletePet DELETE PetID
 }

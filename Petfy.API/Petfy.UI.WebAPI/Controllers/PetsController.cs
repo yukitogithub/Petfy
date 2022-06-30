@@ -107,12 +107,12 @@ namespace Petfy.UI.WebAPI.Controllers
         // PUT: api/Pets/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutPet(int id, Pet pet)
+        public async Task<IActionResult> PutPet(int id, PetDTO pet)
         {
-            if (id != pet.ID)
-            {
-                return BadRequest();
-            }
+            //if (id != pet.ID)
+            //{
+            //    return BadRequest();
+            //}
 
             try
             {

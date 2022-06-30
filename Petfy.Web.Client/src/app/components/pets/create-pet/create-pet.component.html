@@ -1,0 +1,50 @@
+<div class="container">
+    <form class="register-form" [formGroup]="createPetForm" (ngSubmit)="submit()">
+        <h1 class="h3 mb-3 fw-normal">Add Pet</h1>
+
+        <div class="form-floating">
+            <input type="text" class="form-control" id="floatingInput" placeholder="Name" formControlName="name">
+            <label for="floatingInput">Name</label>
+        </div>
+
+        <div class="form-floating">
+            <input type="number" class="form-control" id="floatingInput" placeholder="Pet Number" formControlName="petNumber">
+            <label for="floatingInput">Pet Number</label>
+        </div>
+
+        <div class="form-floating">
+            <input type="text" class="form-control" id="floatingInput" placeholder="Description" formControlName="description">
+            <label for="floatingInput">Description</label>
+        </div>
+
+        <div class="form-floating">
+            <input type="text" class="form-control" id="floatingInput" placeholder="Breed" formControlName="breed">
+            <label for="floatingInput">Breed</label>
+        </div>
+
+        <div class="form-floating">
+            <input type="date" class="form-control" id="floatingInput" placeholder="Date Of Birth" formControlName="dateOfBirth">
+            <label for="floatingInput">Date Of Birth</label>
+        </div>
+
+        <div class="form-floating">
+            <!-- <input type="text" class="form-control" id="floatingInput" placeholder="Type" formControlName="type"> -->
+            <label for="floatingInput">Type</label>
+            <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" formControlName="type">
+                <option value="Dog">Dog</option>
+                <option value="Cat">Cat</option>
+                <!-- <option value="3"></option> -->
+            </select>
+        </div>
+
+        <div class="form-floating">
+            <input type="number" class="form-control" id="floatingInput" placeholder="Owner Id" formControlName="ownerID" hidden>
+        </div>
+
+        <div class="buttons">
+            <button class="w-100 btn btn-lg btn-primary" type="submit">Add</button>
+            <button class="w-100 btn btn-lg btn-secondary" routerLink="/pets">Cancel</button>
+        </div>
+        
+    </form> 
+</div>

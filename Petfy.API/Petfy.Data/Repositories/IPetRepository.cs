@@ -21,7 +21,7 @@ namespace Petfy.Data.Repositories
 
         public void AddPet(Pet pet); //AddPet
 
-        public Pet EditPet(int Id, Pet UpdatedPet); //EditPet
+        public Pet EditPet(Pet UpdatedPet); //EditPet
 
         public bool DeletePet(int Id); //DeletePet
     }
