@@ -33,7 +33,7 @@ namespace Petfy.UI.WebAPI
                 .AddRoles<AppRole>()
                 .AddRoleManager<RoleManager<AppRole>>()
                 .AddSignInManager<SignInManager<AppUser>>()
-                .AddRoleValidator<RoleValidator<AppUser>>()
+                .AddRoleValidator<RoleValidator<AppRole>>()
                 .AddEntityFrameworkStores<PetfyDbContext>();
             
             services.AddScoped<ITokenService, TokenService>();
