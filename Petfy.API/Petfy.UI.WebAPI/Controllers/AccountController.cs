@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Petfy.Data;
 using Petfy.Data.Models;
 using Petfy.Domain.Services;
-using Petfy.UI.WebAPI.DTO;
+using Petfy.Domain.DTO;
 using System.Security.Cryptography;
 using System.Text;
+using AutoMapper;
 
 namespace Petfy.UI.WebAPI.Controllers
 {
@@ -13,32 +15,31 @@ namespace Petfy.UI.WebAPI.Controllers
     [ApiController]
     public class AccountController : ControllerBase
     {
-        private readonly PetfyDbContext _context;
         public readonly ITokenService _tokenService;
+        private readonly SignInManager<AppUser> _signInManager;
+        private readonly UserManager<AppUser> _userManager;
+        private readonly IMapper _mapper;
 
-        public AccountController(PetfyDbContext context, ITokenService tokenService)
+        public AccountController(ITokenService tokenService, SignInManager<AppUser> signInManager, UserManager<AppUser> userManager, IMapper mapper)
         {
-            _context = context;
             _tokenService = tokenService;
+            _signInManager = signInManager;
+            _userManager = userManager;
+            _mapper = mapper;
         }
 
         //Post
         //login
         [HttpPost("login")]
-        public ActionResult<UserDTO> Login(LoginDTO login)
+        public async Task<ActionResult<UserDTO>> Login(LoginDTO login)
         {
-            var user = _context.Users.SingleOrDefault(x => x.UserName == login.Username);
+            var user = _userManager.Users.SingleOrDefault(x => x.UserName == login.Username);
 
             if (user == null) return Unauthorized("Username or password incorrect");
 
-            using var hmac = new HMACSHA512(user.PasswordSalt);
+            var result = await _signInManager.CheckPasswordSignInAsync(user, login.Password, false);
 
-            var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(login.Password));
-
-            for (int i = 0; i < computedHash.Length; i++)
-            {
-                if (computedHash[i] != user.PasswordHash[i]) return Unauthorized("Username or password incorrect");
-            }
+            if (!result.Succeeded) return Unauthorized();
 
             var token = _tokenService.CreateToken(user);
 
@@ -54,21 +55,24 @@ namespace Petfy.UI.WebAPI.Controllers
         //Post
         //register
         [HttpPost("register")]
-        public ActionResult<UserDTO> Register(RegisterDTO user)
+        public async Task<ActionResult<UserDTO>> Register(RegisterDTO user)
         {
             if (UserExists(user.Username)) return BadRequest("User already taken");
 
-            using var hmac = new HMACSHA512();
 
-            var newUser = new User()
-            {
-                UserName = user.Username,
-                PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(user.Password)),
-                PasswordSalt = hmac.Key
-            };
+            //var newUser = new AppUser()
+            //{
+            //    UserName = user.Username,
+            //    //PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(user.Password)),
+            //    //PasswordSalt = hmac.Key
+            //};
 
-            _context.Users.Add(newUser);
-            _context.SaveChanges();
+            var newUser = _mapper.Map<AppUser>(user);
+            newUser.UserName = user.Username;
+
+            var result = await _userManager.CreateAsync(newUser, user.Password);
+
+            if (!result.Succeeded) return BadRequest(result.Errors);
 
             var token = _tokenService.CreateToken(newUser);
 
@@ -83,7 +87,7 @@ namespace Petfy.UI.WebAPI.Controllers
 
         private bool UserExists(string username)
         {
-            return _context.Users.Any(u => u.UserName == username);
+            return _userManager.Users.Any(u => u.UserName == username);
         }
     }
 }

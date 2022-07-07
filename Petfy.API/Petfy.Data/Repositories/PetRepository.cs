@@ -18,9 +18,9 @@ namespace Petfy.Data.Repositories
             _context = context;
         }
 
-        public List<Pet> GetAllPets()
+        public IEnumerable<Pet> GetAllPets()
         {
-            return _context.Pets.Include(p => p.Vaccines).ToList();
+            return _context.Pets.Include(p => p.Owner).Include(p => p.Vaccines);
         }
 
         //public List<Pet> GetByBreed(string Breed)

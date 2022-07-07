@@ -1,4 +1,5 @@
-﻿using Petfy.Data.Models;
+﻿using AutoMapper;
+using Petfy.Data.Models;
 using Petfy.Data.Repositories;
 using Petfy.Domain.DTO;
 using System;
@@ -12,15 +13,19 @@ namespace Petfy.Domain.Services
     public class PetService : IPetService
     {
         private readonly IPetRepository _petRepository;
+        private readonly IMapper _mapper;
 
-        public PetService(IPetRepository petRepository)
+        public PetService(IPetRepository petRepository, IMapper mapper)
         {
             _petRepository = petRepository;
+            _mapper = mapper;
         }
 
-        public List<Pet> GetAllPets()
+        public IEnumerable<PetDTO> GetAllPets()
         {
-            return _petRepository.GetAllPets();
+            var pets = _petRepository.GetAllPets();
+            var petsToReturn = _mapper.Map<IEnumerable<PetDTO>>(pets);
+            return petsToReturn;
         }
 
         public List<Pet> GetByBreed(string Breed)
@@ -45,9 +50,11 @@ namespace Petfy.Domain.Services
             }
         }
 
-        public Pet GetById(int Id)
+        public PetDTO GetById(int Id)
         {
-            return _petRepository.GetById(Id);
+            var pet = _petRepository.GetById(Id);
+            var petToReturn = _mapper.Map<PetDTO>(pet);
+            return petToReturn;
         }
 
         public void AddPet(PetDTO petDTO)
@@ -74,7 +81,7 @@ namespace Petfy.Domain.Services
 
         public Pet EditPet(int Id, PetDTO UpdatedPet)
         {
-            var oldPet = GetById(Id);
+            var oldPet = _petRepository.GetById(Id);
             if (oldPet != null)
             {
                 oldPet.Description = UpdatedPet.Description;

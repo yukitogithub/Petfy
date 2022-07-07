@@ -10,7 +10,7 @@ namespace Petfy.Domain.Services
 {
     public interface IPetService
     {
-        public List<Pet> GetAllPets(); //GetAll
+        public IEnumerable<PetDTO> GetAllPets(); //GetAll
 
         public List<Pet> GetByBreed(string Breed);
 
@@ -18,7 +18,7 @@ namespace Petfy.Domain.Services
 
         public List<Vaccine> GetAllVaccines(int PetId);
 
-        public Pet GetById(int Id); //GetById
+        public PetDTO GetById(int Id); //GetById
 
         public void AddPet(PetDTO pet); //AddPet
 

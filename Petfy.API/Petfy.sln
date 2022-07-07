@@ -28,7 +28,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Petfy.Domain", "Petfy.Domai
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{B1DC796C-1C2C-4FBF-A44D-3107C29647F2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Petfy.Test", "Petfy.Test\Petfy.Test.csproj", "{C7D32A73-1A07-4BA6-A8DC-48BA6AACE685}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Petfy.Test", "Petfy.Test\Petfy.Test.csproj", "{C7D32A73-1A07-4BA6-A8DC-48BA6AACE685}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -6,11 +6,10 @@ using System.Threading.Tasks;
 
 namespace Petfy.Data.Models
 {
-    public class User
+    public class Photo
     {
         public int ID { get; set; }
-        public string UserName { get; set; }
-        public byte[] PasswordHash { get; set; }
-        public byte[] PasswordSalt { get; set; }
+        public string URL { get; set; }
+        public bool IsMain { get; set; }
     }
 }

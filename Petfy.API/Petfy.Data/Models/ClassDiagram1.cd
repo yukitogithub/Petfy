@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
   <Class Name="Petfy.Data.Models.Owner">
-    <Position X="3.25" Y="1.5" Width="1.5" />
+    <Position X="3" Y="1" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAgAAMAAAAAAQAAAAQAAACAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAMAAAAAAQAAAAQAAACAAAAAAAAAAA=</HashCode>
       <FileName>Models\Owner.cs</FileName>
     </TypeIdentifier>
     <ShowAsCollectionAssociation>
@@ -11,9 +11,9 @@
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Petfy.Data.Models.Pet">
-    <Position X="7.75" Y="1.25" Width="1.5" />
+    <Position X="8" Y="1.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAACAAAAgiAAAAAAAAAQAAAAQAKAAAQAAAAIAAAA=</HashCode>
+      <HashCode>AAAAAACAAABgiCAAAAAAAAQAAAAQAKAAAQAAAAIAAAA=</HashCode>
       <FileName>Models\Pet.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
@@ -21,6 +21,7 @@
     </ShowAsAssociation>
     <ShowAsCollectionAssociation>
       <Property Name="Vaccines" />
+      <Property Name="Photos" />
     </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Petfy.Data.Models.PetVaccine">
@@ -30,16 +31,19 @@
       <FileName>Models\PetVaccine.cs</FileName>
     </TypeIdentifier>
     <ShowAsAssociation>
-      <Property Name="Vaccine" />
       <Property Name="Pet" />
+      <Property Name="Vaccine" />
     </ShowAsAssociation>
   </Class>
-  <Class Name="Petfy.Data.Models.User">
-    <Position X="2.5" Y="4.75" Width="1.5" />
+  <Class Name="Petfy.Data.Models.AppUser">
+    <Position X="0.75" Y="3.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>EACAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAQAAAAAAAAA=</HashCode>
-      <FileName>Models\User.cs</FileName>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\AppUser.cs</FileName>
     </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="UserRoles" />
+    </ShowAsCollectionAssociation>
   </Class>
   <Class Name="Petfy.Data.Models.Vaccine">
     <Position X="12.75" Y="4.5" Width="1.5" />
@@ -47,6 +51,34 @@
       <HashCode>AAAAAAAAACAAgAAEAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Models\Vaccine.cs</FileName>
     </TypeIdentifier>
+  </Class>
+  <Class Name="Petfy.Data.Models.Photo">
+    <Position X="6.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAAAAACAAAQAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\Photo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Petfy.Data.Models.AppUserRole">
+    <Position X="0.75" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\AppUserRole.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Role" />
+      <Property Name="User" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="Petfy.Data.Models.AppRole">
+    <Position X="4.25" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAA=</HashCode>
+      <FileName>Models\AppRole.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="UserRoles" />
+    </ShowAsCollectionAssociation>
   </Class>
   <Font Name="Segoe UI" Size="9" />
 </ClassDiagram>

@@ -19,5 +19,16 @@ namespace Petfy.Data.Models
 
         //public List<PetVaccine> PetVaccines { get; set; } = new List<PetVaccine>();
         public List<Vaccine> Vaccines { get; set; } = new List<Vaccine>();
+
+        public List<Photo> Photos { get; set; }
+
+        public int GetAge()
+        {
+            var age = DateTime.Today.Year - DateOfBirth.Year;
+
+            if (DateOfBirth.Date > DateTime.Today.AddYears(-age)) age--;
+
+            return age;
+        }
     }
 }

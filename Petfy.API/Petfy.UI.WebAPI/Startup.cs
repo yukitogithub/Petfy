@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Petfy.Data;
+using Petfy.Data.Models;
 using Petfy.Data.Repositories;
+using Petfy.Domain.Extensions;
 using Petfy.Domain.Services;
 using Petfy.UI.WebAPI.Middleware;
 using System.Text;
@@ -22,6 +25,17 @@ namespace Petfy.UI.WebAPI
         {
             // Add services to the container.
             services.AddDbContext<PetfyDbContext>();
+            
+            services.AddIdentityCore<AppUser>(opt =>
+            {
+                opt.SignIn.RequireConfirmedEmail = false;
+            })
+                .AddRoles<AppRole>()
+                .AddRoleManager<RoleManager<AppRole>>()
+                .AddSignInManager<SignInManager<AppUser>>()
+                .AddRoleValidator<RoleValidator<AppUser>>()
+                .AddEntityFrameworkStores<PetfyDbContext>();
+            
             services.AddScoped<ITokenService, TokenService>();
             
             services.AddControllers();
@@ -43,6 +57,8 @@ namespace Petfy.UI.WebAPI
             services.AddScoped<IPetRepository, PetRepository>();
 
             services.AddScoped<IPetService, PetService>();
+
+            services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

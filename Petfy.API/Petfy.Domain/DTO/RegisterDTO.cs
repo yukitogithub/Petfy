@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Petfy.UI.WebAPI.DTO
+namespace Petfy.Domain.DTO
 {
     public class RegisterDTO
     {

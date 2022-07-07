@@ -27,14 +27,14 @@ namespace Petfy.UI.WebAPI.Controllers
 
         // GET: api/Pets
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Pet>>> GetPets()
+        public async Task<ActionResult<IEnumerable<PetDTO>>> GetPets()
         {
             var pets = _petservice.GetAllPets();
             if (pets == null)
             {
                 return NotFound();
             }
-            return pets;
+            return Ok(pets);
         }
 
         // GET: api/Pets/bullterrier
@@ -87,7 +87,7 @@ namespace Petfy.UI.WebAPI.Controllers
 
         // GET: api/Pets/5
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<Pet>> GetPet(int id)
+        public async Task<ActionResult<PetDTO>> GetPet(int id)
         {
             var pets = _petservice.GetAllPets();
             if (pets == null)
@@ -101,7 +101,7 @@ namespace Petfy.UI.WebAPI.Controllers
                 return NotFound();
             }
 
-            return pet;
+            return Ok(pet);
         }
 
         // PUT: api/Pets/5
