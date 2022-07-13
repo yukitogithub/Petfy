@@ -38,7 +38,14 @@ export class LoginComponent implements OnInit {
       console.log(this.loginForm.value);
       this.auth.login(this.loginForm.value).subscribe({
         //next (paso exitoso)
-        next: (user) => route.navigate(['/']),
+        next: (user) => {
+          if(this.auth.currentUserValue["pets"] && this.auth.currentUserValue["pets"].length == 0) {
+            route.navigate(['pets/add'])
+          }
+          else {
+            route.navigate(['pets'])
+          }
+        },
         //nombre | (nombre) | () => { line1; line2 }
         //error (paso erroneo)
         error: (error) => { console.log(error); },

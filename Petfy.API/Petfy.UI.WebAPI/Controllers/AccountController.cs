@@ -31,7 +31,7 @@ namespace Petfy.UI.WebAPI.Controllers
         //Post
         //login
         [HttpPost("login")]
-        public async Task<ActionResult<UserDTO>> Login(LoginDTO login)
+        public async Task<ActionResult<OwnerDTO>> Login(LoginDTO login)
         {
             var user = _userManager.Users.SingleOrDefault(x => x.UserName == login.Username);
 
@@ -43,22 +43,23 @@ namespace Petfy.UI.WebAPI.Controllers
 
             var token = _tokenService.CreateToken(user);
 
-            var userDto = new UserDTO()
-            {
-                UserName = login.Username,
-                Token = token
-            };
+            //var userDto = new UserDTO()
+            //{
+            //    UserName = login.Username,
+            //    Token = token
+            //};
+            var ownerDTO = _mapper.Map<OwnerDTO>(user);
+            ownerDTO.Token = token;
 
-            return Ok(userDto);
+            return Ok(ownerDTO);
         }
 
         //Post
         //register
         [HttpPost("register")]
-        public async Task<ActionResult<UserDTO>> Register(RegisterDTO user)
+        public async Task<ActionResult<OwnerDTO>> Register(RegisterDTO user)
         {
             if (UserExists(user.Username)) return BadRequest("User already taken");
-
 
             //var newUser = new AppUser()
             //{
@@ -67,22 +68,26 @@ namespace Petfy.UI.WebAPI.Controllers
             //    //PasswordSalt = hmac.Key
             //};
 
-            var newUser = _mapper.Map<AppUser>(user);
-            newUser.UserName = user.Username;
+            var newOwner = _mapper.Map<Owner>(user);
+            //var newUser = _mapper.Map<AppUser>(user);
+            newOwner.UserName = user.Username;
 
-            var result = await _userManager.CreateAsync(newUser, user.Password);
+            var result = await _userManager.CreateAsync(newOwner, user.Password);
 
             if (!result.Succeeded) return BadRequest(result.Errors);
 
-            var token = _tokenService.CreateToken(newUser);
+            var token = _tokenService.CreateToken(newOwner);
 
-            var userDto = new UserDTO()
-            {
-                UserName = user.Username,
-                Token = token
-            };
+            //var userDto = new UserDTO()
+            //{
+            //    UserName = user.Username,
+            //    Token = token
+            //};
 
-            return Ok(userDto);
+            var ownerDTO = _mapper.Map<OwnerDTO>(newOwner);
+            ownerDTO.Token = token;
+
+            return Ok(ownerDTO);
         }
 
         private bool UserExists(string username)

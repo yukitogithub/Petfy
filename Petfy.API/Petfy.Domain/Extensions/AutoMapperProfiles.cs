@@ -14,6 +14,8 @@ namespace Petfy.Domain.Extensions
         public AutoMapperProfiles()
         {
             CreateMap<RegisterDTO, AppUser>();
+            CreateMap<RegisterDTO, Owner>();
+            CreateMap<Owner, OwnerDTO>();
             CreateMap<AppUser, UserDTO>();
             CreateMap<Pet, PetDTO>()
                 .ForMember(

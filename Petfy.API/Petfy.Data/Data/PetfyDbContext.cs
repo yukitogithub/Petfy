@@ -61,6 +61,29 @@ namespace Petfy.Data
                 .WithOne(r => r.Role)
                 .HasForeignKey(r => r.RoleId)
                 .IsRequired();
+
+            //modelBuilder.Entity<AppRole>().HasData(
+            //     new AppRole { Name = "Admin", NormalizedName = "ADMINISTRATOR" },
+            //     new AppRole { Name = "Moderator", NormalizedName = "MODERATOR" },
+            //     new AppRole { Name = "Owner", NormalizedName = "OWNER" }
+            //    );
+
+            //var user = new AppUser()
+            //{
+            //    UserName = "Admin",
+            //    NormalizedUserName = "ADMIN",
+            //    Email = "admin@admin.com",
+            //    NormalizedEmail = "ADMIN@ADMIN.COM"
+            //};
+
+            //modelBuilder.Entity<AppUser>().HasData(user);
+
+            //var passwordHasher = new PasswordHasher<AppUser>();
+            //user.PasswordHash = passwordHasher.HashPassword(user, "Admin123$.");
+
+            //var userRole = new AppUserRole() { UserId = 1, RoleId = 1 };
+            //modelBuilder.Entity<AppUserRole>().HasData(userRole);
+
         }
     }
 }

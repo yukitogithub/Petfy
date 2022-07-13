@@ -10,6 +10,10 @@ namespace Petfy.Domain.DTO
     {
         public int ID { get; set; }
 
+        public string UserName { get; set; }
+        
+        public string Email { get; set; }
+        
         public string Name { get; set; }
 
         public string Address { get; set; }
@@ -17,5 +21,8 @@ namespace Petfy.Domain.DTO
         public string City { get; set; }
 
         public DateTime DateOfBirth { get; set; }
+        public string Token { get; set; }
+
+        public List<PetDTO> Pets { get; set; }
     }
 }

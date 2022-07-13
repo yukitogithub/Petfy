@@ -20,16 +20,29 @@ export class RegisterComponent implements OnInit {
   ngOnInit(): void {
     this.registerForm = this.formBuilder.group({
       username: ['', Validators.required],
+      email: ['', Validators.required],
+      name: ['', Validators.required],
+      address: ['', Validators.required],
+      city: ['', Validators.required],
+      dateOfBirth: ['', Validators.required],
       password: ['', Validators.required]
     });
   }
 
   submitRegister(){
+    var route = this.router;
     const register = this.registerForm.value;
     if(this.registerForm.valid) {
       this.auth.register(register).subscribe({
         //next (paso exitoso)
-        next: user => this.router.navigate(['/']),
+        next: user => { 
+          if(this.auth.currentUserValue["pets"] && this.auth.currentUserValue["pets"].length == 0) {
+            route.navigate(['pets/add'])
+          }
+          else {
+            route.navigate(['pets'])
+          } 
+        },
         //nombre | (nombre) | () => { line1; line2 }
         //error (paso erroneo)
         error: error => console.log(error),
