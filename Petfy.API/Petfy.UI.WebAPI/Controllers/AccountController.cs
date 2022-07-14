@@ -41,7 +41,7 @@ namespace Petfy.UI.WebAPI.Controllers
 
             if (!result.Succeeded) return Unauthorized();
 
-            var token = _tokenService.CreateToken(user);
+            var token = await _tokenService.CreateToken(user);
 
             //var userDto = new UserDTO()
             //{
@@ -76,7 +76,11 @@ namespace Petfy.UI.WebAPI.Controllers
 
             if (!result.Succeeded) return BadRequest(result.Errors);
 
-            var token = _tokenService.CreateToken(newOwner);
+            var roleResult = await _userManager.AddToRoleAsync(newOwner, "Owner");
+
+            if(!roleResult.Succeeded) return BadRequest(roleResult.Errors);
+
+            var token = await _tokenService.CreateToken(newOwner);
 
             //var userDto = new UserDTO()
             //{

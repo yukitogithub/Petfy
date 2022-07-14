@@ -20,6 +20,8 @@ namespace Petfy.UI.WebAPI.Controllers
 
         //Get
         //GetUsers
+        [Authorize(Roles = "Admin")]
+        //[Authorize(Policy = "RequireAdminRole")]
         [HttpGet]
         public ActionResult<IEnumerable<AppUser>> GetUsers()
         {
@@ -28,6 +30,7 @@ namespace Petfy.UI.WebAPI.Controllers
 
         //Get
         //GetUserById
+        [Authorize(Roles = "Admin, Owner")]
         [HttpGet("{id}")]
         public ActionResult<AppUser> GetUser(int id)
         {

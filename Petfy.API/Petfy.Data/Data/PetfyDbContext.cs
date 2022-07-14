@@ -62,28 +62,29 @@ namespace Petfy.Data
                 .HasForeignKey(r => r.RoleId)
                 .IsRequired();
 
-            //modelBuilder.Entity<AppRole>().HasData(
-            //     new AppRole { Name = "Admin", NormalizedName = "ADMINISTRATOR" },
-            //     new AppRole { Name = "Moderator", NormalizedName = "MODERATOR" },
-            //     new AppRole { Name = "Owner", NormalizedName = "OWNER" }
-            //    );
+            modelBuilder.Entity<AppRole>().HasData(
+                 new AppRole { Id = 1, Name = "Admin", NormalizedName = "ADMINISTRATOR" },
+                 new AppRole { Id = 2, Name = "Moderator", NormalizedName = "MODERATOR" },
+                 new AppRole { Id = 3, Name = "Owner", NormalizedName = "OWNER" }
+                );
 
-            //var user = new AppUser()
-            //{
-            //    UserName = "Admin",
-            //    NormalizedUserName = "ADMIN",
-            //    Email = "admin@admin.com",
-            //    NormalizedEmail = "ADMIN@ADMIN.COM"
-            //};
+            var user = new AppUser()
+            {
+                Id = 1,
+                UserName = "Admin",
+                NormalizedUserName = "ADMIN",
+                Email = "admin@admin.com",
+                NormalizedEmail = "ADMIN@ADMIN.COM"
+            };
 
-            //modelBuilder.Entity<AppUser>().HasData(user);
+            modelBuilder.Entity<AppUser>().HasData(user);
 
-            //var passwordHasher = new PasswordHasher<AppUser>();
-            //user.PasswordHash = passwordHasher.HashPassword(user, "Admin123$.");
+            var passwordHasher = new PasswordHasher<AppUser>();
+            user.PasswordHash = passwordHasher.HashPassword(user, "Admin123$.");
 
-            //var userRole = new AppUserRole() { UserId = 1, RoleId = 1 };
-            //modelBuilder.Entity<AppUserRole>().HasData(userRole);
+            var userRole = new AppUserRole() { UserId = 1, RoleId = 1 };
 
+            modelBuilder.Entity<AppUserRole>().HasData(userRole);
         }
     }
 }

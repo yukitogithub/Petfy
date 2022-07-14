@@ -54,6 +54,11 @@ namespace Petfy.UI.WebAPI
                 };
             });
 
+            services.AddAuthorization(opt => 
+            { 
+                opt.AddPolicy("RequireAdminRole", policy => policy.RequireRole("Admin")); 
+            });
+
             services.AddScoped<IPetRepository, PetRepository>();
 
             services.AddScoped<IPetService, PetService>();
@@ -67,15 +72,15 @@ namespace Petfy.UI.WebAPI
             app.UseMiddleware<ExceptionMiddleware>();
 
             // Configure the HTTP request pipeline.
-            if (env.IsDevelopment())
-            {
+            //if (env.IsDevelopment())
+            //{
                 app.UseSwagger();
                 app.UseSwaggerUI();
-            }
+            //}
 
             app.UseHttpsRedirection();
             app.UseRouting();
-            app.UseCors(p => p.AllowAnyHeader().AllowAnyMethod().WithOrigins("http://localhost:4200") );
+            app.UseCors(p => p.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin() );
             app.UseAuthentication();
             app.UseAuthorization();
 
