@@ -17,6 +17,7 @@ namespace Petfy.Domain.Extensions
             CreateMap<RegisterDTO, Owner>();
             CreateMap<Owner, OwnerDTO>();
             CreateMap<AppUser, UserDTO>();
+            CreateMap<AppUser, OwnerDTO>();
             CreateMap<Pet, PetDTO>()
                 .ForMember(
                     dest => dest.MainPhotoUrl,
