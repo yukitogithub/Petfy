@@ -27,4 +27,7 @@
 
   <ProjectExtensions><VisualStudio><UserProperties properties_4launchsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
+    <Target Name="PrePublishTarget" AfterTargets="Publish">
+	    <Exec Command="dotnet ef database update" />
+    </Target>
 </Project>
